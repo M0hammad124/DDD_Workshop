@@ -18,5 +18,4 @@ public class Accounts
     {
         records.Add(account);
     }
-    public void Clear() => records.Clear();
 }

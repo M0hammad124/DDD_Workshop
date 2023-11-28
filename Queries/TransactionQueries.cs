@@ -18,7 +18,7 @@ public class TransactionQueries
         .Select(t => new TransferDraftViewModel(
             t.CreditAccountId,
             t.DebitAccountId,
-            t.Amount.Value,
+            t.Fund.Amount,
             t.Date
         ));
 

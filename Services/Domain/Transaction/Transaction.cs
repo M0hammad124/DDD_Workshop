@@ -11,7 +11,7 @@ public class Transaction
 
     public string CreditAccountId { get; }
     public string DebitAccountId { get; }
-    public Money Amount { get; }
+    public Money Fund { get; }
 
     public string Id { get; private set; }
     public DateTime Date { get; private set; }
@@ -30,7 +30,7 @@ public class Transaction
         Description = description;
         CreditAccountId = creditAccountId;
         DebitAccountId = debitAccountId;
-        Amount = amount;
+        Fund = amount;
     }
 
     public static Transaction Draft(
@@ -51,7 +51,7 @@ public class Transaction
 
     public void Commit(ITransferService transferService)
     {
-        transferService.Transfer(CreditAccountId, DebitAccountId, Amount);
+        transferService.Transfer(CreditAccountId, DebitAccountId, Fund);
         Status = TransferStatus.Commit;
     }
 }

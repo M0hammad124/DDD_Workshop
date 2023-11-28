@@ -51,7 +51,7 @@ public class TransactionOrchestratorSpecs
         amount = Math.Abs(amount);
         var creditAccount = Build.AnAccount.WithBalance(amount + 25000).Please();
 
-        accountService.OpenAccount(creditAccount.Id, creditAccount.Balance.Value);
+        accountService.OpenAccount(creditAccount.Id, creditAccount.Balance.Amount);
 
         sut.DraftTransfer(transactionId,
             creditAccount.Id, debitAccountId,

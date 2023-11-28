@@ -14,48 +14,37 @@ public class MoneySpecs
         return t;
     }
 
-    Money aValidMoney() => A<Money>(with => new Money(Math.Abs(with.Value)));
-
-    // class MoneyDto
-    // {
-    //     public decimal Amount { get; set; }
-    //     public string Currency1 { get; set; }
-    //     public string Currency2 { get; set; }
-    //     public string Currency3 { get; set; }
-    //     public string Currency4 { get; set; }
-    //     public string Currency5 { get; set; }
-    //     public string Currency6 { get; set; }
-    //     public string Currency7 { get; set; }
-    //     public string Currency8 { get; set; }
-    // }
-
-    void x()
-    {
-        // var money = A<MoneyDto>.But(with => new MoneyDto
-        // {
-        //     Amount = Math.Abs(with.Amount)
-        // });
-
-    }
+    Money aValidMoney() => A<Money>(with => new Money(Math.Abs(with.Amount)));
 
     [Theory, AutoData]
     public void Money_cannot_be_negative(decimal amount)
-    => new Action(() =>               //Arrange
-       new Money(-Math.Abs(amount))   //Act
-       ).Should().Throw<Exception>(); //Assert
+    {
+        amount = -Math.Abs(amount);
+
+        var action = () => new Money(amount);
+
+        action.Should().Throw<Exception>();
+    }
 
     [Theory, AutoData]
     public void Supports_subtraction(uint five)
     {
-        //Arrange
         var smallerNumber = aValidMoney();
-        var biggerNumber = new Money(smallerNumber.Value + five);
+        var biggerNumber = new Money(smallerNumber.Amount + five);
 
-        //Act
-        (biggerNumber - smallerNumber)
+        var expected = biggerNumber - smallerNumber;
 
-        //Assert
-        .Value.Should().Be(five);
+        expected.Amount.Should().Be(five);
     }
 
+    [Theory, AutoData]
+    public void PlusOperator_should_return_correct_total_amount(
+        Money left, Money right)
+    {
+        var totalAmount = left.Amount + right.Amount;
+
+        var expected = left + right;
+
+        expected.Amount.Should().Be(totalAmount);
+    }
 }
